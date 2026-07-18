@@ -1,0 +1,3 @@
+[AILEY_BAILEY_SAVE_PACKET_BEGIN]
+{"schema_version":"broken","packet_type":"ailey_bailey_learning_save_packet","curriculum_state":{"topic":"테스트","current_leaf":"1-1-1"}}
+[AILEY_BAILEY_SAVE_PACKET_END]

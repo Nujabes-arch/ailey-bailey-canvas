@@ -1,0 +1,18 @@
+{
+  "bundle_version": "1.0",
+  "generated_kst": "2026-07-18T13:43:37.806680+09:00",
+  "target": "Observed functional parity with current Ailey & Bailey GPT",
+  "test_count": 77,
+  "critical_count": 16,
+  "authoritative_knowledge": [
+    "01_cc_canvas.md",
+    "02_save_load.md",
+    "03_image_mode.md",
+    "04_diagnostic.md",
+    "05_deep_learning_method.md"
+  ],
+  "reference_only": [
+    "Ailey & Bailey X대화형_260323.md",
+    "Ailey & Bailey_Gemini_260514.md"
+  ]
+}
