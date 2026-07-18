@@ -2,6 +2,9 @@
   "bundle_version": "2.0.0",
   "schema_version": "2.0",
   "target": "Observed functional parity with current Ailey & Bailey GPT",
+  "license_path": "LICENSE",
+  "notice_path": "NOTICE.md",
+  "provenance_path": "docs/REFERENCE_PROVENANCE.md",
   "project_instruction_path": "00_PROJECT_INSTRUCTIONS.md",
   "authoritative_files": [
     "knowledge_authoritative/00_authority_manifest.md",
@@ -25,16 +28,29 @@
     "tests/fixtures/fixture_source_packet.md",
     "tests/fixtures/fixture_toc.md",
     "tests/fixtures/malformed_save_packet.txt",
-    "tests/fixtures/prompt_injection_source.md",
+    "tests/fixtures/fixture_learning_transfer_notes.md",
+    "tests/fixtures/l01_state_transition_source.md",
+    "tests/fixtures/l01_pending_problem_save_packet.txt",
+    "docs/V2_STATIC_AUDIT.md",
     "baselines/README.md",
     "baselines/gpt_response_template.md",
     "baselines/project_response_template.md",
     "baselines/state_transition_template.json"
   ],
-  "qa_only_file_count": 15,
+  "qa_only_file_count": 18,
   "validators": [],
+  "manual_validation_methods": [
+    "manual_contract_review",
+    "manual_state_transition",
+    "manual_schema_inspection",
+    "manual_runtime_observation",
+    "manual_baseline_comparison"
+  ],
   "validation_mode": "one_time_manual_static_audit",
   "ci_status": "deferred_by_current_request",
+  "legacy_test_count": 77,
+  "added_test_count": 2,
+  "total_test_count": 79,
   "test_count": 79,
   "critical_count": 16,
   "required_capabilities": [
@@ -53,5 +69,5 @@
     "The external .cc runtime assets and renderAppShell execution depend on the ChatGPT Canvas surface and network availability.",
     "Actual current-GPT baselines and manual approval must be captured in live project sessions."
   ],
-  "generated_at": "2026-07-18T16:15:09.1245684+09:00"
+  "generated_at": "2026-07-18T17:23:02.2360838+09:00"
 }

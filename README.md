@@ -10,6 +10,16 @@
 - 앱, Skills, 모델 선택, Canvas 실행 표면, GitHub 권한은 프롬프트만으로 복제되지 않는다.
 - 따라서 목표는 문자열 동일성이 아니라 사용자 체감 기능과 상태 전이의 동등성이다.
 
+## 라이선스와 출처
+
+이 번들은 fewweekslater (Ray You)의 공개 저장소 `lemos999/Singulari-Tea-Codex-Canvas`를 참고해 변형한 비영리 동등성·QA 자료를 포함한다. 해당 변형 자료는 CC BY-NC-SA 4.0에 따라 저작자 표시, 변경 사실 표시, 비영리 사용, 동일조건 공유가 필요하다.
+
+- 라이선스: [`LICENSE`](LICENSE)
+- 저작자·변형 고지: [`NOTICE.md`](NOTICE.md)
+- 검토 커밋·원본 경로·체크섬: [`docs/REFERENCE_PROVENANCE.md`](docs/REFERENCE_PROVENANCE.md)
+
+이 저장소는 비공개 GPT 원본 프롬프트를 확보·복원했다고 주장하지 않는다.
+
 ## 폴더
 
 - `00_PROJECT_INSTRUCTIONS.md`: 프로젝트 설정의 Project instructions에 붙여 넣을 지침
@@ -23,6 +33,7 @@
 - `baselines/`: 실제 응답 캡처용 빈 템플릿과 수동 승인 계약
 - `docs/PROJECT_SETUP.md`: 프로젝트와 GitHub 연결 설정
 - `docs/FEATURE_MATRIX.md`: 기능별 구현 위치
+- `docs/V2_STATIC_AUDIT.md`: V2 일회성 정적 감사 명령과 결과
 
 ## 설치 순서
 

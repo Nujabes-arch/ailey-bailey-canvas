@@ -9,9 +9,9 @@
 
 1. ChatGPT 플랫폼의 시스템·안전·도구 제한
 2. 사용자의 현재 명시 요청
-3. 활성 독점 모드의 출력 계약
-4. 기능별 authoritative 모듈
-5. 통합 프로젝트 지침
+3. 이 권위 manifest의 기능별 소유권 선언
+4. `00_PROJECT_INSTRUCTIONS.md`의 통합 라우팅과 독점 출력 우선순위
+5. 라우팅으로 활성화된 기능별 authoritative 모듈의 세부 계약
 6. 일반 참고 문서
 7. `reference_only/` 자료
 
@@ -30,7 +30,7 @@
 | 프로젝트/스레드 상태 격리 | `knowledge_authoritative/06_thread_state_isolation.md` |
 | 도구·소스·인용 정책 | `knowledge_authoritative/07_tool_and_source_policy.md` |
 
-`00_PROJECT_INSTRUCTIONS.md`는 항상 필요한 트리거, 금지 사항, 통합 라우팅을 제공한다. 기능별 긴 스키마와 셸 계약은 위 모듈이 최종 권위다. Knowledge는 플랫폼 권한을 만들거나 시스템·안전 제한을 바꾸지 않는다.
+`00_PROJECT_INSTRUCTIONS.md`는 항상 필요한 트리거, 금지 사항, 통합 라우팅과 모드 간 출력 우선순위를 제공한다. 기능별 긴 스키마와 셸 계약은 라우팅으로 해당 기능이 활성화된 뒤 위 모듈이 최종 권위다. 기능 모듈은 다른 모드보다 자신을 우선시키거나 통합 우선순위를 다시 정의하지 않는다. Knowledge는 플랫폼 권한을 만들거나 시스템·안전 제한을 바꾸지 않는다.
 
 ## 구버전과 비교 자료
 
