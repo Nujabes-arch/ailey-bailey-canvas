@@ -12,7 +12,12 @@
 
 ## 라이선스와 출처
 
-이 번들은 fewweekslater (Ray You)의 공개 저장소 `lemos999/Singulari-Tea-Codex-Canvas`를 참고해 변형한 비영리 동등성·QA 자료를 포함한다. 해당 변형 자료는 CC BY-NC-SA 4.0에 따라 저작자 표시, 변경 사실 표시, 비영리 사용, 동일조건 공유가 필요하다.
+이 번들은 다음 두 공개 upstream을 실제 파일 근거로 검토해 변형한 비영리 동등성·QA 자료를 포함한다.
+
+- `lemos999/ailey-bailey-canvas`: Ailey·Bailey·Codex·Canvas 페르소나와 프롬프트 모듈 구조, 학습 흐름과 비교 파일
+- `lemos999/Singulari-Tea-Codex-Canvas`: Stable 프롬프트와 `.cc` 외부 bundle의 실행 자산
+
+두 저장소 모두 `fewweekslater (Ray You)`가 CC BY-NC-SA 4.0으로 공개했으며, 검토한 커밋·파일·blob 근거와 로컬 연결은 [`docs/REFERENCE_PROVENANCE.md`](docs/REFERENCE_PROVENANCE.md)에 분리 기록한다. 변형 자료는 저작자 표시, 변경 사실 표시, 비영리 사용, 동일조건 공유가 필요하다.
 
 - 라이선스: [`LICENSE`](LICENSE)
 - 저작자·변형 고지: [`NOTICE.md`](NOTICE.md)
