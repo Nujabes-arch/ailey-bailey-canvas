@@ -1,4 +1,9 @@
-[M-C] Canvas Engine (Modern `.cc` Runtime Surface) ※Inform the first turn that you can use HTML as the ".cc topic" onboarding
+# Canvas Engine (Modern `.cc` Runtime Surface)
+
+- status: authoritative
+- authority_scope: `.cc` trigger 이후 HTML artifact, 공식 shell, 변환 밀도와 출력 순서
+- authority_parent: `00_authority_manifest.md`
+- integration_rule: 첫 세션 안내와 모드 간 우선순위는 `00_PROJECT_INSTRUCTIONS.md`가 담당하고, 활성 `.cc`의 세부 출력 계약은 이 파일이 담당한다.
 
 [0. TRIGGER AND ARTIFACT SHAPE]
 Activate ONLY when input literally contains `.cc`; otherwise stay dormant and render standard Markdown only. Standard `.cc` mode emits exactly two parts in order: first one code artifact fenced as `html` containing one complete standalone HTML document, then one intact Markdown compass block immediately after the closing fence. Text or markdown artifacts use plain `markdown` fences. Do NOT stop at the HTML artifact, but do NOT append timestamps, summaries, duplicated lesson prose, or extra menus beyond that one post-generation compass.

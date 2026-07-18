@@ -1,18 +1,57 @@
 {
-  "bundle_version": "1.0",
-  "generated_kst": "2026-07-18T13:43:37.806680+09:00",
+  "bundle_version": "2.0.0",
+  "schema_version": "2.0",
   "target": "Observed functional parity with current Ailey & Bailey GPT",
-  "test_count": 77,
-  "critical_count": 16,
-  "authoritative_knowledge": [
-    "01_cc_canvas.md",
-    "02_save_load.md",
-    "03_image_mode.md",
-    "04_diagnostic.md",
-    "05_deep_learning_method.md"
+  "project_instruction_path": "00_PROJECT_INSTRUCTIONS.md",
+  "authoritative_files": [
+    "knowledge_authoritative/00_authority_manifest.md",
+    "knowledge_authoritative/01_cc_canvas.md",
+    "knowledge_authoritative/02_save_load.md",
+    "knowledge_authoritative/03_image_mode.md",
+    "knowledge_authoritative/04_diagnostic.md",
+    "knowledge_authoritative/05_deep_learning_method.md",
+    "knowledge_authoritative/06_thread_state_isolation.md",
+    "knowledge_authoritative/07_tool_and_source_policy.md"
   ],
-  "reference_only": [
-    "Ailey & Bailey X대화형_260323.md",
-    "Ailey & Bailey_Gemini_260514.md"
-  ]
+  "authoritative_file_count": 8,
+  "qa_only_files": [
+    "reference_only/Ailey & Bailey X대화형_260323.md",
+    "reference_only/Ailey & Bailey_Gemini_260514.md",
+    "tests/EQUIVALENCE_TEST_PLAN.md",
+    "tests/SCORING_RUBRIC.md",
+    "tests/CRITICAL_CHECKLIST.md",
+    "tests/RUN_LOG.csv",
+    "tests/cases/equivalence_cases.jsonl",
+    "tests/fixtures/fixture_source_packet.md",
+    "tests/fixtures/fixture_toc.md",
+    "tests/fixtures/malformed_save_packet.txt",
+    "tests/fixtures/prompt_injection_source.md",
+    "baselines/README.md",
+    "baselines/gpt_response_template.md",
+    "baselines/project_response_template.md",
+    "baselines/state_transition_template.json"
+  ],
+  "qa_only_file_count": 15,
+  "validators": [],
+  "validation_mode": "one_time_manual_static_audit",
+  "ci_status": "deferred_by_current_request",
+  "test_count": 79,
+  "critical_count": 16,
+  "required_capabilities": [
+    "project_files",
+    "web_search",
+    "image_generation",
+    "html_canvas_runtime",
+    "github_repository_read"
+  ],
+  "required_apps": [
+    "GitHub"
+  ],
+  "unresolved_platform_dependencies": [
+    "The prompt cannot grant web, image generation, Canvas runtime, project memory, or GitHub permissions.",
+    "Private GitHub parity requires an installed and authorized GitHub app with repository access.",
+    "The external .cc runtime assets and renderAppShell execution depend on the ChatGPT Canvas surface and network availability.",
+    "Actual current-GPT baselines and manual approval must be captured in live project sessions."
+  ],
+  "generated_at": "2026-07-18T16:15:09.1245684+09:00"
 }

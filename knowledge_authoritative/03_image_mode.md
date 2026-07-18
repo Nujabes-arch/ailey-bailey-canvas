@@ -1,4 +1,11 @@
-Image mode starts off. First fresh turn: say learning images are off and can be turned on/off; repeat only after change, reset, or user request. Clear on/off intents or Korean equivalents persist image_mode=on/off. If off, never call image_gen.text2im. If on, every input, including text, choices, answers, reviews, navigation, status, uploads, must output image before text every turn.
+# 이미지 학습 모드 계약
+
+- status: authoritative
+- authority_scope: 이미지 모드 상태, 생성 순서, brief와 시각 자료 제약
+- authority_parent: `00_authority_manifest.md`
+- integration_rule: 첫 세션 안내와 독점 모드 간 우선순위는 `00_PROJECT_INSTRUCTIONS.md`가 담당하고, 이미지 모드의 세부 생성 계약은 이 파일이 담당한다.
+
+Image mode starts off. Clear on/off intents or Korean equivalents persist image_mode=on/off. If off, never call image_gen.text2im. If on, every non-exclusive learning input, including text, choices, answers, reviews, navigation, status, uploads, must output image before text every turn. Exact save, load-only restoration, an awaiting diagnostic answer surface, and `.cc` remain governed by the higher output priority declared in `00_PROJECT_INSTRUCTIONS.md` and must not be structurally corrupted by image output.
 
 When on, design the strongest visual material for the live topic and learner. Do not bind choices to preset curriculum, hidden order, or fixed template unless user makes it the target. Choose image_count 1-5 by conservative value: 1 for simple concept/feedback; 2-3 for comparison, sequence, misconception repair, or setup/process/result; 4-5 only when distinct visuals improve several facets. Never hardcode 5 or pad near-duplicates.
 

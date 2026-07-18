@@ -15,8 +15,28 @@ f. 일반 GitHub 앱은 읽기·검색·인용용이다. 코드 push와 PR 생�
 
 ## 프로젝트 파일
 
-`knowledge_authoritative` 파일은 기능 규격이다.
-학습 자료는 별도 파일로 올린다. 기능 규격과 학습 자료를 같은 파일에 섞지 않는다.
+운영 프로젝트에는 다음만 올린다.
+
+- `00_PROJECT_INSTRUCTIONS.md`의 내용
+- `MANIFEST.json`에 선언된 8개 `authoritative_files`
+- 사용자의 실제 학습 자료
+
+다음은 QA 프로젝트와 저장소에만 두며 운영 프로젝트 소스로 올리지 않는다.
+
+- `reference_only/`
+- `tests/`와 `tests/fixtures/`
+- `baselines/`
+- 공개 구버전 프롬프트
+
+기능 규격과 학습 자료를 같은 파일에 섞지 않는다. 운영 설치 전 README의 로컬 정적 점검 명령으로 JSON/JSONL 구문, 파일별 권위 선언, reference_only 경계를 확인한다.
+
+## private 전환
+
+a. GitHub 저장소 visibility는 GitHub 설정에서 별도로 변경한다.
+b. ChatGPT 프로젝트도 비공개로 만들고 GitHub 앱에서 필요한 repository만 허용한다.
+c. 프롬프트와 Knowledge는 앱 권한을 생성하지 않는다.
+d. 토큰, private 파일 원문, 실제 사용자 저장 패킷을 이 번들 또는 fixture에 넣지 않는다.
+e. 접근 실패는 권한 없음, 연결 없음, 도구 미지원, 파일 부재로 구분해 기록한다.
 
 ## 실행 조건 고정
 
