@@ -2,6 +2,7 @@
 
 | 기능 | 구현 위치 | 핵심 검증 |
 |---|---|---|
+| 권위와 충돌 해결 | 00_authority_manifest.md | 단일 권위 순서, 기능별 최종 파일 |
 | Ailey 기본 페르소나 | 프로젝트 지침 | 따뜻한 반말, 비유, 오류 인정 |
 | Bailey 최소 개입 | 프로젝트 지침 | 반복 문제 오류 전에는 등장 금지 |
 | 기본 compass | 프로젝트 지침 | 문자 binding과 KST timestamp |
@@ -19,4 +20,9 @@
 | 웹 최신성 | 프로젝트 지침 + 도구 | 실제 검색과 인용 |
 | 파일 분석 | 프로젝트 지침 + 프로젝트 파일 | 자료 근거와 범위 유지 |
 | private GitHub | 프로젝트 앱 권한 | 허용 repo 읽기·검색·인용 |
-| 프로젝트 다중 스레드 | 프로젝트 메모리 | 공통 자료, 독립 스레드 정리 |
+| 프로젝트 다중 스레드 | 06_thread_state_isolation.md | 실행 식별자 격리, 명시적 복원만 허용 |
+| 도구·소스·인용 | 07_tool_and_source_policy.md | source_bounded, 실제 도구 사용 정직성 |
+
+## 운영과 QA 경계
+
+운영 프로젝트는 프로젝트 지침, 8개 authoritative Knowledge, 실제 학습 자료만 사용한다. `reference_only`, tests, fixtures, baselines, 공개 구버전 프롬프트는 QA 전용이다. 정적 검사는 README의 직접 감사 명령을 사용하며 실제 GPT 동등성 판정은 baseline과 수동 승인이 있어야 한다.

@@ -1,0 +1,153 @@
+[AILEY_BAILEY_SAVE_PACKET_BEGIN]
+{
+  "schema_version": "2.0",
+  "packet_type": "ailey_bailey_learning_save_packet",
+  "save_command": "저장",
+  "continuity_contract": {
+    "packet_markers": {
+      "begin": "[AILEY_BAILEY_SAVE_PACKET_BEGIN]",
+      "end": "[AILEY_BAILEY_SAVE_PACKET_END]"
+    },
+    "protected_layers": [
+      "session_intent",
+      "foundational_learning_digest",
+      "source_state",
+      "curriculum_state",
+      "learning_state",
+      "achievement_state",
+      "weakness_profile",
+      "navigation_state",
+      "current_state"
+    ],
+    "save_load_rules": [
+      "save_freezes_current_learning_state_without_advancing_progress",
+      "latest_valid_packet_is_authoritative_for_established_learning_state",
+      "load_only_restoration_does_not_change_mode_scope_navigation_or_mastery"
+    ]
+  },
+  "session_intent": {
+    "explicit_start_reason": "고정 학습 자료로 측정값 읽기 학습",
+    "preferred_study_vector": "자료 순서 기반 커리큘럼과 문제 복원"
+  },
+  "foundational_learning_digest": {
+    "opening_topic": "측정값 읽기",
+    "opening_goal": "dB와 Hz의 자료 내 의미를 읽고 적용",
+    "opening_track": "고정 자료 목차",
+    "opening_baseline_strength": "자료에 명시된 수치 찾기",
+    "opening_baseline_risk": "서로 다른 시점의 관찰값 혼동"
+  },
+  "source_state": {
+    "mode": "source_bounded",
+    "active_source_present": true,
+    "source_anchor": "tests/fixtures/l01_state_transition_source.md",
+    "active_range": "문서 전체",
+    "toc_path": "1 > 1-1 > 1-1-2",
+    "scope_rule": "자료 밖 사실을 보충하지 않음"
+  },
+  "curriculum_state": {
+    "topic": "측정값 읽기",
+    "selected_track": "고정 자료 목차",
+    "path_stack": ["1", "1-1", "1-1-2"],
+    "current_leaf": "1-1-2. 주파수의 의미",
+    "next_leaf": "1-2-1. 평탄 구간 찾기",
+    "completion_progress": "1-1-1 완료, 1-1-2 수업 완료 후 문제 대기",
+    "active_map_state": "1-1-2",
+    "course_outline": [
+      "1. 측정의 기초",
+      "1-1. 단위",
+      "1-1-1. 데시벨의 의미",
+      "1-1-2. 주파수의 의미",
+      "1-2. 관찰값 해석",
+      "1-2-1. 평탄 구간 찾기"
+    ],
+    "progress_map": [
+      {
+        "node_id": "1-1-1",
+        "node_type": "leaf",
+        "status": "stable",
+        "lesson_seen": true,
+        "problem_status": "not_started",
+        "review_status": "not_started",
+        "mastery_band": "unverified",
+        "weakness_tags": [],
+        "last_turn_touched": 2
+      },
+      {
+        "node_id": "1-1-2",
+        "node_type": "leaf",
+        "status": "problem_pending",
+        "lesson_seen": true,
+        "problem_status": "problem_pending",
+        "review_status": "not_started",
+        "mastery_band": "unverified",
+        "weakness_tags": [],
+        "last_turn_touched": 6
+      }
+    ]
+  },
+  "learning_state": {
+    "active_mode": "problem_generation",
+    "active_persona": "Ailey",
+    "active_shell": "fixed_two_question_assessment",
+    "current_objective": "고정 문제 2개 답안 제출",
+    "current_scope": "l01_state_transition_source.md 전체",
+    "last_completed_step": "문제 전문 제시",
+    "pending_learning_action": "두 문제 답안 제출"
+  },
+  "achievement_state": {
+    "mastery_summary": "아직 채점되지 않음",
+    "recent_scores": [],
+    "performance_trend": "pending",
+    "earned_strengths": [],
+    "completion_status": "in_progress",
+    "active_assessment_result": "pending_submission"
+  },
+  "weakness_profile": {
+    "concept_gaps": [],
+    "procedural_risks": [],
+    "metacognitive_risks": [],
+    "review_queue": [],
+    "normalized_weaknesses": []
+  },
+  "navigation_state": {
+    "navigation_id": "l01-problem-pending",
+    "binding_rule": "문제 제출 중에는 compass를 표시하지 않음",
+    "current_menu_kind": "problem_submission",
+    "visible_options": [],
+    "return_path": "채점과 복습 뒤 1-2-1. 평탄 구간 찾기"
+  },
+  "current_state": {
+    "time": {
+      "clock_time": "fixture",
+      "day_phase": "fixture",
+      "elapsed": "6 learning turns"
+    },
+    "turn_state": {
+      "turn_number": 6,
+      "turn_display": "문제 미제출"
+    },
+    "current_topic": "1-1-2. 주파수의 의미",
+    "active_mode": "problem_generation",
+    "active_problem_set": {
+      "title": "L01 고정 평가",
+      "questions": [
+        "1. 30초의 관찰값은 몇 dB인가?",
+        "2. 250 Hz는 1초당 몇 번의 진동인가?"
+      ],
+      "answer_submission_format": "1번: ... 다음 줄에 2번: ..."
+    },
+    "active_review_target": null,
+    "active_codex_term": null,
+    "immediate_stakes": "같은 문제 전문을 보존한 채 답안 대기"
+  },
+  "recent_turn_digest": [
+    "1-1-1 수업 뒤 옆길과 지도를 열어도 정규 다음 1-1-2가 보존됨",
+    "1-1-2 수업 뒤 고정 문제 2개를 제시하고 답안을 기다리는 중"
+  ],
+  "reload_guidance": {
+    "authority": "이 패킷은 복원된 학습 상태의 권위다",
+    "continuity_rule": "패킷의 현재 문제 대기 지점에서 이어간다",
+    "load_behavior": "load-only 복원은 학습 상태를 전진시키지 않는다"
+  }
+}
+[AILEY_BAILEY_SAVE_PACKET_END]

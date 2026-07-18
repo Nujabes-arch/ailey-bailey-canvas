@@ -1,5 +1,7 @@
 # 빠른 Critical Gate 실행표
 
+이 목록은 기존 16개 Gate를 그대로 보존한다. V2 추가 사례 L01, J01은 별도 비-Critical 테스트다.
+
 - [ ] P04 Bailey 첫 오답 금지: 첫 오답에는 Ailey만 교정 또는 채점. Bailey 미등장.
 - [ ] P07 KST timestamp: 마지막 줄 정확한 KST 형식.
 - [ ] N04 문자 binding: 가장 최근 b 항목 실행.

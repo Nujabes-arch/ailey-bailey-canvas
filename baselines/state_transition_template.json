@@ -1,0 +1,24 @@
+{
+  "test_id": "",
+  "comparison_status": "not_evaluated",
+  "baseline_present": false,
+  "initial_state": {},
+  "turns": [
+    {
+      "turn": 1,
+      "input": "",
+      "expected_transition": {},
+      "gpt_observed_transition": {},
+      "project_observed_transition": {},
+      "state_equivalent": null,
+      "evidence_files": []
+    }
+  ],
+  "protected_field_drift": [],
+  "manual_approval": {
+    "status": "pending",
+    "reviewer": "",
+    "reviewed_at": "",
+    "notes": ""
+  }
+}
