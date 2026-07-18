@@ -227,3 +227,85 @@ if ($secretHits) { throw 'sensitive pattern' }
 Result: `PASS` — `JSON_AND_FIXTURE`, `COUNT_AND_PROTECTED_FIELDS`, `L01_TRANSFER`, `AUTHORITY_AND_MANIFEST`, and `SENSITIVE_AND_DIFF` all passed. The L01 setup now requires Turn 7's actual model response; the fixed fixture remains available only for standalone restore/drift coverage. No legacy protected field or Critical Gate changed.
 
 The following remain `not_evaluated`: live current-GPT response comparison, Canvas runtime execution, image-generation ordering/content, live web behavior, and private GitHub authorization/runtime reads.
+
+## 구간 A 보완 감사 (2026-07-18)
+
+- Audit run: `2026-07-18 22:57:11 +09:00` (`Asia/Seoul`)
+- Audit HEAD before this follow-up commit: `8fd894a0b9039721ec70664ece61fe23a3414718`
+- Scope: `05_deep_learning_method.md` 일반화, 프로젝트 지침 절 참조 수정, 그리고 이 보완 감사 계약
+- 기존 3차 감사 절과 과거 결과는 덮어쓰지 않았다.
+
+### 실제 실행한 보완 검사
+
+```powershell
+$ErrorActionPreference = 'Stop'
+$manifest = Get-Content MANIFEST.json -Raw | ConvertFrom-Json
+$cases = @(Get-Content tests/cases/equivalence_cases.jsonl | ForEach-Object { $_ | ConvertFrom-Json })
+
+$ids = @($cases.id)
+if ($ids.Count -ne @($ids | Sort-Object -Unique).Count) { throw 'duplicate test id' }
+$planIds = @(Select-String tests/EQUIVALENCE_TEST_PLAN.md -Pattern '^### ([A-Z][0-9]{2}) · ' | ForEach-Object { $_.Matches[0].Groups[1].Value })
+if (@(Compare-Object $planIds $ids).Count -ne 0) { throw 'test catalog mismatch' }
+$legacy = @($cases | Where-Object { $_.id -match '^[PRNQDXSIMTZ][0-9]{2}$' })
+if ($cases.Count -ne 79 -or $legacy.Count -ne 77 -or @($legacy | Where-Object critical).Count -ne 16) { throw 'test count drift' }
+if (@($cases | Where-Object id -eq 'L01').Count -ne 1 -or @($cases | Where-Object id -eq 'J01').Count -ne 1) { throw 'L01/J01 identity drift' }
+$used = @($cases.validator | Sort-Object -Unique)
+$declared = @($manifest.manual_validation_methods | Sort-Object -Unique)
+if (@(Compare-Object $declared $used).Count -ne 0 -or $manifest.validators.Count -ne 0) { throw 'manual validator mismatch' }
+
+$authorityFiles = @(Get-ChildItem knowledge_authoritative -File -Filter *.md)
+if ($authorityFiles.Count -ne 8) { throw 'authority file count' }
+$scopes = foreach ($file in $authorityFiles) {
+  $text = Get-Content $file.FullName -Raw
+  foreach ($token in @('status: authoritative', 'authority_scope:', 'integration_rule:')) {
+    if ([regex]::Matches($text, [regex]::Escape($token)).Count -ne 1) { throw "$($file.Name): $token" }
+  }
+  $scope = (Select-String -LiteralPath $file.FullName -Pattern '^- authority_scope: ' | Select-Object -First 1).Line -replace '^- authority_scope: ', ''
+  if ([string]::IsNullOrWhiteSpace($scope)) { throw "$($file.Name): empty authority scope" }
+  $scope
+}
+if (@($scopes | Sort-Object -Unique).Count -ne 8) { throw 'duplicate authority scope' }
+
+$operational = @('00_PROJECT_INSTRUCTIONS.md') + @($authorityFiles | ForEach-Object FullName)
+$specificDependencyHits = Select-String -LiteralPath $operational -Pattern '(?i)Dwarkesh|interview-prep|interview theater|archive machinery|archive paths'
+if ($specificDependencyHits) { throw "specific deep-learning dependency remains: $($specificDependencyHits | Out-String)" }
+if (Select-String -LiteralPath 00_PROJECT_INSTRUCTIONS.md -Pattern '\[0\. 권한과 우선순위\]') { throw 'stale section reference' }
+if (-not (Select-String -LiteralPath 00_PROJECT_INSTRUCTIONS.md -Pattern '\[0\. 적용 순서와 실행 경계\]')) { throw 'current section reference missing' }
+
+$l01 = $cases | Where-Object id -eq 'L01'
+$t8 = $l01.prompt | Where-Object turn -eq 8
+if ($l01.prompt.Count -ne 21 -or (@($l01.prompt.turn) -join ',') -ne ((1..21) -join ',') -or $l01.prompt[6].input -ne '저장') { throw 'L01 sequence' }
+if ($t8.transfer.source_thread -ne 'Thread A' -or $t8.transfer.source_turn -ne 7 -or $t8.transfer.destination_thread -ne 'Thread B' -or $t8.transfer.destination -ne '첫 메시지' -or $t8.transfer.extraction.transform -ne 'none') { throw 'L01 transfer' }
+if ($t8.transfer.extraction.start_marker -ne '[AILEY_BAILEY_SAVE_PACKET_BEGIN]' -or $t8.transfer.extraction.end_marker -ne '[AILEY_BAILEY_SAVE_PACKET_END]') { throw 'L01 markers' }
+$l01line = Get-Content tests/cases/equivalence_cases.jsonl | Where-Object { $_ -match '"id":"L01"' }
+if ($l01line -match '"schema_version"|"packet_type"|"current_state"|"answer_submission_format"|l01_pending_problem_save_packet') { throw 'L01 packet duplication' }
+if ($t8.transfer.fixture_use -notmatch 'L01에서는 고정 fixture를 입력으로 사용하지 않음') { throw 'L01 fixture rule' }
+
+git diff --check
+if ($LASTEXITCODE -ne 0) { throw 'git diff --check failed' }
+$secretHits = Get-ChildItem -Recurse -File | Where-Object { $_.FullName -notmatch '\\.git\\|docs\\V2_STATIC_AUDIT\.md$' } | Select-String -Pattern '(?i)(api[_ -]?key|password|private key|BEGIN [A-Z ]*PRIVATE KEY|github_pat_|ghp_|sk-[A-Za-z0-9]{16,})'
+if ($secretHits) { throw "potential secret pattern: $($secretHits | Out-String)" }
+$branch = (git branch --show-current).Trim()
+if ($branch -ne 'codex/v2-parity-hardening') { throw "unexpected branch=$branch" }
+$head = (git rev-parse HEAD).Trim()
+$remoteHead = (git rev-parse origin/codex/v2-parity-hardening).Trim()
+if ($head -ne $remoteHead) { throw "local/remote mismatch: $head / $remoteHead" }
+```
+
+### 결과
+
+- PASS — JSON/JSONL 파싱, 전체 ID 유일성, 79개 카탈로그와 77개 legacy/16개 Critical 보존
+- PASS — `L01`·`J01`의 단일 존재, 다섯 manual validator 일치
+- PASS — authoritative 8개 파일, 각 `status`·`authority_scope`·`integration_rule` 정확히 1회, 비어 있지 않은 scope 8개 고유
+- PASS — `05_deep_learning_method.md`와 다른 운영 파일에서 Dwarkesh/interview-prep 전용 의존성 및 오래된 절 참조 제거
+- PASS — L01 21턴, Turn 7의 정확한 `저장`, Turn 8의 실제 marker·Thread A→Thread B transfer 계약, fixture 비사용 계약
+- PASS — `git diff --check`와 민감정보 검사
+- PASS — 감사 시점의 브랜치가 `codex/v2-parity-hardening`이고 로컬 HEAD와 원격 HEAD가 `8fd894a0b9039721ec70664ece61fe23a3414718`로 일치
+
+다음 항목은 이 보완 감사에서도 `not_evaluated`로 유지한다.
+
+- live current-GPT 응답 비교 및 실제 21턴 L01 수동 실행
+- ChatGPT Canvas/외부 `.cc` 런타임
+- 이미지 생성 순서와 결과
+- live 웹 검색 동작
+- private GitHub 런타임 권한과 실제 저장소 동작
