@@ -182,3 +182,48 @@ Result: `PASS` — no credential-like pattern was found and `git diff --check` r
 - Private GitHub authorization and repository reads
 
 Those remain `not_evaluated` until executed on the corresponding live surfaces with captured baselines.
+
+## 3차 수정 감사 (2026-07-18)
+
+- Audit run: `2026-07-18 22:04:25 +09:00` (`Asia/Seoul`)
+- Audit HEAD: `88d22d4c4512edb510d121aaeb44eec65ead0194`
+- Scope: operational prompt/authority changes already pushed in the preceding commits, plus the L01 transfer-contract changes in the working tree.
+- Working-tree scope at audit time: only `tests/cases/equivalence_cases.jsonl` and `tests/EQUIVALENCE_TEST_PLAN.md` were intentionally modified; no unrelated paths were present.
+- The preceding V2 audit sections above are historical records and were not overwritten.
+
+### Commands executed
+
+```powershell
+$manifest = Get-Content MANIFEST.json -Raw | ConvertFrom-Json
+$cases = @(Get-Content tests/cases/equivalence_cases.jsonl | ForEach-Object { $_ | ConvertFrom-Json })
+$packet = Get-Content tests/fixtures/l01_pending_problem_save_packet.txt -Raw
+$packetJson = $packet -replace '(?s)^\[AILEY_BAILEY_SAVE_PACKET_BEGIN\]\s*', '' -replace '\s*\[AILEY_BAILEY_SAVE_PACKET_END\]\s*$', ''
+$packetJson | ConvertFrom-Json | Out-Null
+if ($cases.Count -ne 79) { throw "total=$($cases.Count)" }
+$legacy = @($cases | Where-Object { $_.id -match '^[PRNQDXSIMTZ][0-9]{2}$' })
+if ($legacy.Count -ne 77 -or @($legacy | Where-Object critical).Count -ne 16) { throw 'legacy/Critical drift' }
+$before = @(git show 88d22d4:tests/cases/equivalence_cases.jsonl | ForEach-Object { $_ | ConvertFrom-Json })
+$after = @(Get-Content tests/cases/equivalence_cases.jsonl | ForEach-Object { $_ | ConvertFrom-Json })
+foreach ($old in $before | Where-Object { $_.id -match '^[PRNQDXSIMTZ][0-9]{2}$' }) {
+  $new = $after | Where-Object id -eq $old.id
+  foreach ($field in @('id','category','title','critical','repeat_count','setup','prompt','must','fail')) {
+    if (($old.$field | ConvertTo-Json -Compress -Depth 30) -ne ($new.$field | ConvertTo-Json -Compress -Depth 30)) { throw "$($old.id) changed $field" }
+  }
+}
+$l01 = $cases | Where-Object id -eq 'L01'
+$t8 = $l01.prompt | Where-Object turn -eq 8
+if ($l01.prompt.Count -ne 21 -or (@($l01.prompt.turn) -join ',') -ne ((1..21) -join ',') -or $l01.prompt[6].input -ne '저장') { throw 'L01 sequence' }
+if ($t8.transfer.source_thread -ne 'Thread A' -or $t8.transfer.source_turn -ne 7 -or $t8.transfer.destination_thread -ne 'Thread B' -or $t8.transfer.extraction.transform -ne 'none') { throw 'L01 transfer' }
+$l01line = Get-Content tests/cases/equivalence_cases.jsonl | Where-Object { $_ -match '"id":"L01"' }
+if ($l01line -match '"schema_version"|"packet_type"|"current_state"|"answer_submission_format"|l01_pending_problem_save_packet') { throw 'L01 packet duplication' }
+if (@(Get-ChildItem knowledge_authoritative -File -Filter *.md).Count -ne 8) { throw 'authority file count' }
+$used = @($cases.validator | Sort-Object -Unique); $declared = @($manifest.manual_validation_methods | Sort-Object -Unique)
+if (@(Compare-Object $declared $used).Count -ne 0) { throw 'manual validator mismatch' }
+git diff --check
+$secretHits = Get-ChildItem -Recurse -File | Where-Object { $_.FullName -notmatch '\\.git\\|docs\\V2_STATIC_AUDIT\.md$' } | Select-String -Pattern '(?i)(api[_ -]?key|password|private key|BEGIN [A-Z ]*PRIVATE KEY|github_pat_|ghp_|sk-[A-Za-z0-9]{16,})'
+if ($secretHits) { throw 'sensitive pattern' }
+```
+
+Result: `PASS` — `JSON_AND_FIXTURE`, `COUNT_AND_PROTECTED_FIELDS`, `L01_TRANSFER`, `AUTHORITY_AND_MANIFEST`, and `SENSITIVE_AND_DIFF` all passed. The L01 setup now requires Turn 7's actual model response; the fixed fixture remains available only for standalone restore/drift coverage. No legacy protected field or Critical Gate changed.
+
+The following remain `not_evaluated`: live current-GPT response comparison, Canvas runtime execution, image-generation ordering/content, live web behavior, and private GitHub authorization/runtime reads.

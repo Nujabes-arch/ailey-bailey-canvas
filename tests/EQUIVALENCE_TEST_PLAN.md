@@ -634,7 +634,7 @@ e. 결과를 RUN_LOG.csv에 기록한다.
 ### L01 · 21턴 장기 상태 전이
 - 영역: 장기 상태 전이
 - Critical: NO
-- 준비: Thread A의 새 채팅에 `tests/fixtures/l01_state_transition_source.md`를 업로드한다. Turn 8은 Thread B의 새 채팅에서 시작하며 `tests/fixtures/l01_pending_problem_save_packet.txt` 전체를 첫 메시지로 붙여넣는다.
+- 준비: Thread A의 새 채팅에 `tests/fixtures/l01_state_transition_source.md`를 업로드한다. Turn 8은 Thread B의 새 채팅에서 시작하며, Thread A Turn 7의 실제 모델 응답에서 저장 패킷 marker 사이 전체 문자열을 추출해 문자 변경 없이 첫 메시지로 전달한다. `tests/fixtures/l01_pending_problem_save_packet.txt`는 L01 입력으로 사용하지 않는다.
 - 입력:
 
 | Turn | 실제 사용자 입력 | 관찰 가능한 기대 상태 |
@@ -646,7 +646,7 @@ e. 결과를 RUN_LOG.csv에 기록한다.
 | 5 | `a` | 직전 Turn 4이 표시한 최신 progress compass의 `a`에 바인딩된 정규 다음 `1-1-2. 주파수의 의미`로 진입 |
 | 6 | `자료의 고정 평가 계약에 적힌 문제 1과 문제 2를 문구 그대로 내줘. 정답은 공개하지 말고 제출 형식도 그대로 적어줘.` | 두 문제 전문과 제출 형식을 fixture와 동일하게 표시하고 답안을 기다림 |
 | 7 | `저장` | 문제 전문, 제출 형식, source 범위, 현재 `1-1-2`, 정규 다음 `1-2-1`을 보존한 저장 패킷만 출력 |
-| 8 | `tests/fixtures/l01_pending_problem_save_packet.txt`의 전체 텍스트 | Thread B에서 새 학습 없이 같은 두 문제 전문과 같은 제출 형식, 같은 source 범위로 복원 |
+| 8 | Thread A Turn 7 실제 응답의 marker 사이 전체 문자열을 문자 변경 없이 Thread B 첫 메시지로 전달 | Thread B에서 새 학습 없이 같은 두 문제 전문과 같은 제출 형식, 같은 source 범위로 복원 |
 | 9 | `1번: 64 dB` 다음 줄 `2번: 250번` | 복원된 두 문제에 대한 답안으로 접수 |
 | 10 | `채점해줘.` | 1번 오답, 2번 정답으로 판정하고 1번 복습을 우선 표시 |
 | 11 | `1번 오답만 복습해줘.` | review target을 문제 1 하나로 유지하고 30초 관찰값 판단 기준을 다룸 |
@@ -660,6 +660,9 @@ e. 결과를 RUN_LOG.csv에 기록한다.
 | 19 | `1-2-1 수업 내용을 한 문장으로 요약해줘.` | 평탄 구간이 15초부터 30초까지 65 dB라는 현재 단원 요약 |
 | 20 | `저장` | 현재 `1-2-1`, 완료된 review target, source 범위를 바꾸지 않은 저장 패킷 출력 |
 | 21 | `현재 저장 직전의 단원과 다음 단원을 그대로 다시 표시해줘. 진도를 진행하지 마.` | 저장 직전 현재 지도 위치와 다음 단원을 재표시하고 새 수업·문제·채점을 시작하지 않음 |
+
+- Turn 8 전달 계약: `source_thread=Thread A`, `source_turn=7`, `start_marker=[AILEY_BAILEY_SAVE_PACKET_BEGIN]`, `end_marker=[AILEY_BAILEY_SAVE_PACKET_END]`, `transform=none`, `destination_thread=Thread B`, `destination=첫 메시지`. 추출 문자열은 정규화·수정·재직렬화하지 않는다.
+- 고정 fixture 역할: `tests/fixtures/l01_pending_problem_save_packet.txt`는 M06/M08 또는 복원·드리프트 단독 테스트에서 계속 사용할 수 있지만 L01의 실제 Turn 7 출력 대체물로 사용하지 않는다.
 
 - 필수 동작: 옆길과 지도 열람 뒤 정규 다음 `1-1-2`가 유지되고, 저장·복원 전후 문제 전문과 source 범위가 같으며, 채점 뒤 문제 1만 review target이 되고, 지도에서 `1-1-2 → 1-2-1` 위치가 보존된 뒤 정규 진도로 복귀한다.
 - 실패 판정: Turn 3~5에서 정규 다음이 `1-1-2`가 아님, 문제 문구나 제출 형식 변경, 복원 시 새 학습 시작, source 범위 확대, 문제 2를 오답 처리, 문제 1 이외의 review target 활성화, Turn 15~17 지도 위치 불일치, Turn 20~21 저장으로 진도 전진
