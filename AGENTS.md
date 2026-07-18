@@ -16,7 +16,7 @@
 6. 일반 참고 문서
 7. `reference_only/` 자료
 
-`knowledge_authoritative/00_authority_manifest.md`가 기능별 최종 권위 파일과 구버전 목록을 선언한다. `reference_only/`는 연구·비교 자료이며 운영 지침이나 프로젝트 Knowledge로 사용하지 않는다.
+`knowledge_authoritative/00_authority_manifest.md`는 권위 순서와 기능별 소유권을 색인한다. `reference_only/`는 연구·비교 자료이며 운영 지침이나 프로젝트 Knowledge로 사용하지 않는다.
 
 ## 수정 전에 읽을 파일
 
